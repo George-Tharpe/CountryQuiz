@@ -25,6 +25,7 @@ public class CountryDBHelper extends SQLiteOpenHelper {
     public static final String COLUMN_QUIZ_ID = "quiz_id";
     public static final String COLUMN_QUIZ_DATE = "quiz_date";
     public static final String COLUMN_SCORE = "score";
+    private static CountryDBHelper helperInstance;
 
     // Create table statements
     private static final String CREATE_TABLE_COUNTRIES = "CREATE TABLE " + TABLE_COUNTRIES +
@@ -41,11 +42,21 @@ public class CountryDBHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Access method to the single instance of the class.
+    // It is synchronized, so that only one thread can executes this method, at a time.
+    public static synchronized CountryDBHelper getInstance( Context context ) {
+        // check if the instance already exists and if not, create the instance
+        if( helperInstance == null ) {
+            helperInstance = new CountryDBHelper( context.getApplicationContext() );
+        }
+        return helperInstance;
+    }
+
     // Inside your DatabaseHelper class or a separate helper class
     public void populateCountriesFromCSV(Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         try {
-            InputStream inputStream = context.getAssets().open("country_data.csv");
+            InputStream inputStream = context.getAssets().open("app/assets/country_continent.csv");
             InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             String line;
