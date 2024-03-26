@@ -63,7 +63,7 @@ public class CountryDBHelper extends SQLiteOpenHelper {
             Context context = contexts[0];
             SQLiteDatabase db = CountryDBHelper.getInstance(context).getWritableDatabase();
             try {
-                InputStream inputStream = context.getAssets().open("country_continent.csv");
+                InputStream inputStream = context.getResources().openRawResource(R.raw.country_continent);
                 InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                 String line;

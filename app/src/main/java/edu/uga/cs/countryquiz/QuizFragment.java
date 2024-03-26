@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 public class QuizFragment extends Fragment {
 
     // Array of Android version code names
@@ -21,7 +26,7 @@ public class QuizFragment extends Fragment {
     // Array of Android version highlights/brief descriptions
     private static final String[] androidVersionsInfo = {
             "version info",
-             };
+    };
 
     // which Android version to display in the fragment
     private int versionNum;
@@ -41,10 +46,8 @@ public class QuizFragment extends Fragment {
     @Override
     public void onCreate( Bundle savedInstanceState ) {
         super.onCreate( savedInstanceState );
-        if( getArguments() != null ) {
-            versionNum = getArguments().getInt( "versionNum" );
-        }
     }
+
 
     @Override
     public View onCreateView( LayoutInflater inflater, ViewGroup container,
@@ -63,13 +66,38 @@ public class QuizFragment extends Fragment {
         RadioButton option_2 = view.findViewById( R.id.answer_option_2 );
         RadioButton option_3 = view.findViewById( R.id.answer_option_3 );
 
-        questionTitle.setText( "Which Continent is (insert country) in?" );
-        option_1.setText( "(Insert Continent1)" );
-        option_2.setText( "(Insert Continent2)" );
-        option_3.setText( "(Insert Continent3)" );
+        // Instantiate the CountryData class
+        CountryData countryData = new CountryData(requireContext());
+        countryData.open();
+
+        // Get a random country and its continent from the database
+        List<Country> countries = countryData.retrieveAllCountries();
+        Random random = new Random();
+        int randomIndex = random.nextInt(countries.size());
+        Country randomCountry = countries.get(randomIndex);
+
+        String countryName = randomCountry.getName();
+        String correctContinent = randomCountry.getContinent();
+
+        // Generate incorrect continents
+        List<String> allContinents = new ArrayList<>();
+        allContinents.add("Asia"); // Assuming Asia is always correct for simplicity
+        allContinents.add("Europe");
+        allContinents.add("Africa");
+        Collections.shuffle(allContinents);
+        List<String> incorrectContinents = allContinents.subList(0, 2);
+
+        // Set the question and answer choices
+        questionTitle.setText("Which continent is " + countryName + " in?");
+        option_1.setText(correctContinent);
+        option_2.setText(incorrectContinents.get(0));
+        option_3.setText(incorrectContinents.get(1));
+
+        // Close the CountryData object
+        countryData.close();
     }
 
     public static int getNumberOfVersions() {
-        return androidVersions.length;
+        return 7;
     }
 }
