@@ -36,7 +36,7 @@ public class Quiz {
 
     public void updateScore(boolean answerCorrectly) {
         if (answerCorrectly) {
-            currentScore += 2; // Each question is worth 2 points for correct answers
+            currentScore += 1; // Each question is worth 2 points for correct answers
         }
         questionsAnsweredSoFar++;
     }
