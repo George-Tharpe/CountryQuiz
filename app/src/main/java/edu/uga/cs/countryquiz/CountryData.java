@@ -16,9 +16,9 @@ public class CountryData {
     private SQLiteDatabase db;
     private SQLiteOpenHelper dbHelper;
     private static final String[] allColumns = {
-            CountryDBHelper.COUNTRY_COLUMN_ID,
-            CountryDBHelper.COUNTRY_COLUMN_NAME,
-            CountryDBHelper.COUNTRY_COLUMN_CONTINENT
+            CountryDBHelper.COLUMN_COUNTRY_ID,
+            CountryDBHelper.COLUMN_COUNTRY_NAME,
+            CountryDBHelper.COLUMN_CONTINENT
     };
 
     public CountryData(Context context) {
@@ -44,6 +44,7 @@ public class CountryData {
     public List<Country> retrieveAllCountries() {
         ArrayList<Country> countries = new ArrayList<>();
         Cursor cursor = null;
+        int columnIndex;
 
         try {
             cursor = db.query(CountryDBHelper.TABLE_COUNTRIES, allColumns,
@@ -51,7 +52,7 @@ public class CountryData {
 
             if (cursor != null && cursor.getCount() > 0) {
                 while (cursor.moveToNext()) {
-                    columnIndex = cursor.getColumnIndex(CountryDBHelper.COUNTRY_COLUMN_ID);
+                    columnIndex = cursor.getColumnIndex(CountryDBHelper.COLUMN_COUNTRY_ID);
                     long id = cursor.getLong(columnIndex);
                     String name = cursor.getString(columnIndex);
                     String continent = cursor.getString(columnIndex);
@@ -78,8 +79,8 @@ public class CountryData {
 
     public long storeCountry(Country country) {
         ContentValues values = new ContentValues();
-        values.put(CountryDBHelper.COUNTRY_COLUMN_NAME, country.getName());
-        values.put(CountryDBHelper.COUNTRY_COLUMN_CONTINENT, country.getContinent());
+        values.put(CountryDBHelper.COLUMN_COUNTRY_NAME, country.getName());
+        values.put(CountryDBHelper.COLUMN_CONTINENT, country.getContinent());
 
         long id = db.insert(CountryDBHelper.TABLE_COUNTRIES, null, values);
         country.setId(id);

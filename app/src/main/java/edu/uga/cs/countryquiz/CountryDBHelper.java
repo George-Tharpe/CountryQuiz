@@ -14,30 +14,28 @@ public class CountryDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
 
     // Table names
-    private static final String TABLE_COUNTRIES = "countries";
-    private static final String TABLE_QUIZZES = "quizzes";
+    // Table names and column names for countries table
+    public static final String TABLE_COUNTRIES = "countries";
+    public static final String COLUMN_COUNTRY_ID = "country_id";
+    public static final String COLUMN_COUNTRY_NAME = "country_name";
+    public static final String COLUMN_CONTINENT = "continent";
 
-    // Common column names
-    private static final String KEY_ID = "id";
-
-    // Countries Table - column names
-    private static final String KEY_COUNTRY_NAME = "country_name";
-    private static final String KEY_CONTINENT = "continent";
-
-    // Quizzes Table - column names
-    private static final String KEY_QUIZ_DATE = "quiz_date";
-    private static final String KEY_QUIZ_RESULT = "quiz_result";
+    // Table names and column names for quizzes table
+    public static final String TABLE_QUIZZES = "quizzes";
+    public static final String COLUMN_QUIZ_ID = "quiz_id";
+    public static final String COLUMN_QUIZ_DATE = "quiz_date";
+    public static final String COLUMN_SCORE = "score";
 
     // Create table statements
     private static final String CREATE_TABLE_COUNTRIES = "CREATE TABLE " + TABLE_COUNTRIES +
-            "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            KEY_COUNTRY_NAME + " TEXT," +
-            KEY_CONTINENT + " TEXT)";
+            "(" + COLUMN_COUNTRY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COLUMN_COUNTRY_NAME + " TEXT," +
+            COLUMN_CONTINENT + " TEXT)";
 
     private static final String CREATE_TABLE_QUIZZES = "CREATE TABLE " + TABLE_QUIZZES +
-            "(" + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            KEY_QUIZ_DATE + " TEXT," +
-            KEY_QUIZ_RESULT + " INTEGER)";
+            "(" + COLUMN_QUIZ_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            COLUMN_QUIZ_DATE + " TEXT," +
+            COLUMN_SCORE + " INTEGER)";
 
     public CountryDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -56,8 +54,8 @@ public class CountryDBHelper extends SQLiteOpenHelper {
                 String countryName = parts[0].trim(); // Assuming first column is country name
                 String continent = parts[1].trim(); // Assuming second column is continent
                 ContentValues values = new ContentValues();
-                values.put(KEY_COUNTRY_NAME, countryName);
-                values.put(KEY_CONTINENT, continent);
+                values.put(COLUMN_COUNTRY_NAME, countryName);
+                values.put(COLUMN_CONTINENT, continent);
                 db.insert(TABLE_COUNTRIES, null, values);
             }
             bufferedReader.close();
