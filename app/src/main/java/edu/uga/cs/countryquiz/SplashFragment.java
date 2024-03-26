@@ -28,7 +28,7 @@ public class SplashFragment extends Fragment {
             public void onClick(View v) {
                 // Replace the SplashFragment with the QuizFragment
                 requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new QuizFragment())
+                        .replace(R.id.fragment_container, new QuizContainerFragment())
                         .commit();
             }
         });
