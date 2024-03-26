@@ -16,25 +16,6 @@ public class QuizFragment extends Fragment {
     private static final String[] androidVersions = {
             "14",
             "13",
-            "12",
-            "11",
-            "10",
-            "Pie",
-            "Oreo",
-            "Nougat",
-            "Marshmallow",
-            "Lollipop",
-            "KitKat",
-            "Jelly Bean",
-            "Ice Cream Sandwich",
-            "Honeycomb",
-            "Gingerbread",
-            "Froyo",
-            "Eclair",
-            "Donut",
-            "Cupcake",
-            "Petit Four",
-            "Android (No codename)"
     };
 
     // Array of Android version highlights/brief descriptions

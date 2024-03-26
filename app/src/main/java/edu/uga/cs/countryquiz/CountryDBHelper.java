@@ -1,6 +1,7 @@
 package edu.uga.cs.countryquiz;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -8,6 +9,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CountryDBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "country_quiz.db";
@@ -53,28 +56,43 @@ public class CountryDBHelper extends SQLiteOpenHelper {
     }
 
     // Inside your DatabaseHelper class or a separate helper class
-    public void populateCountriesFromCSV(Context context) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        try {
-            InputStream inputStream = context.getAssets().open("app/assets/country_continent.csv");
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] parts = line.split(","); // Assuming CSV is comma-separated
-                String countryName = parts[0].trim(); // Assuming first column is country name
-                String continent = parts[1].trim(); // Assuming second column is continent
-                ContentValues values = new ContentValues();
-                values.put(COLUMN_COUNTRY_NAME, countryName);
-                values.put(COLUMN_CONTINENT, continent);
-                db.insert(TABLE_COUNTRIES, null, values);
+    // AsyncTask to populate countries from CSV
+    private static class PopulateCountriesTask extends AsyncTask<Context, Void, Void> {
+        @Override
+        protected Void doInBackground(Context... contexts) {
+            Context context = contexts[0];
+            SQLiteDatabase db = CountryDBHelper.getInstance(context).getWritableDatabase();
+            try {
+                InputStream inputStream = context.getAssets().open("country_continent.csv");
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                String line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    String[] parts = line.split(","); // Assuming CSV is comma-separated
+                    String countryName = parts[0].trim(); // Assuming first column is country name
+                    String continent = parts[1].trim(); // Assuming second column is continent
+                    ContentValues values = new ContentValues();
+                    values.put(COLUMN_COUNTRY_NAME, countryName);
+                    values.put(COLUMN_CONTINENT, continent);
+                    db.insert(TABLE_COUNTRIES, null, values);
+                }
+                bufferedReader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                db.close();
             }
-            bufferedReader.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+            return null;
+        }
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            // Handle post-execution tasks here
         }
     }
-
+    // Method to start the AsyncTask
+    public void populateCountriesFromCSVAsync(Context context) {
+        new PopulateCountriesTask().execute(context);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
