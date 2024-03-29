@@ -11,11 +11,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize the database and populate countries from CSV asynchronously
-//        CountryDBHelper dbHelper = CountryDBHelper.getInstance(this);
-//        CountryData data = new CountryData(this);
-//        dbHelper.populateCountriesFromCSVAsync(this);
-//
+         //Initialize the database and populate countries from CSV asynchronously
+        CountryDBHelper dbHelper = CountryDBHelper.getInstance(this);
+        CountryData data = new CountryData(this);
+        dbHelper.populateCountriesFromCSVAsync(this);
+
 //        data.open();
 
         // Display the SplashFragment initially

@@ -60,7 +60,7 @@ public class CountryData {
                     Country country = new Country(name, continent);
                     country.setId(id);
                     countries.add(country);
-                    Log.d(DEBUG_TAG, "Retrieved Country: " + country);
+                    //Log.d(DEBUG_TAG, "Retrieved Country: " + country);
                 }
             }
             if (cursor != null)
@@ -88,4 +88,15 @@ public class CountryData {
 
         return id;
     }
+//    public long storeQuizResult(String quizDate, int score) {
+//        SQLiteDatabase db = dbHelper.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put(CountryDBHelper.COLUMN_QUIZ_DATE, quizDate);
+//        values.put(CountryDBHelper.COLUMN_SCORE, score);
+//
+//        long id = db.insert(CountryDBHelper.TABLE_QUIZZES, null, values);
+//        Log.d(DEBUG_TAG, "Stored new quiz result with id: " + id);
+//
+//        return id;
+//    }
 }
