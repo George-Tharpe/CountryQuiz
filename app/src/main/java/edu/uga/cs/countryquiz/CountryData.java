@@ -60,7 +60,7 @@ public class CountryData {
                     Country country = new Country(name, continent);
                     country.setId(id);
                     countries.add(country);
-                    Log.d(DEBUG_TAG, "Retrieved Country: " + country);
+                    //Log.d(DEBUG_TAG, "Retrieved Country: " + country);
                 }
             }
             if (cursor != null)
