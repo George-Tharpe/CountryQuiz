@@ -21,9 +21,12 @@ public class QuizContainerFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_container_quiz, container, false);
 
         ViewPager2 pager = view.findViewById(R.id.viewpager);
-        QuizPagerAdapter adapter = new QuizPagerAdapter(getChildFragmentManager(), getLifecycle());
+        QuizPagerAdapter adapter = new QuizPagerAdapter(getChildFragmentManager(), getLifecycle(), getContext());
         pager.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         pager.setAdapter(adapter);
+
+
+
 
         pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
@@ -37,6 +40,8 @@ public class QuizContainerFragment extends Fragment {
 
         return view;
     }
+
+
 
     public static int getSwipeCount() {
         return swipeCount;

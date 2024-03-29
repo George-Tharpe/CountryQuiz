@@ -4,9 +4,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -19,22 +22,21 @@ public class QuizFragment extends Fragment {
     private Quiz quiz;
     private int questionIndex;
 
-    public QuizFragment() {
-        // Required empty public constructor
+
+
+    public QuizFragment(int position, Quiz quiz) {
+        questionIndex = position;
+        this.quiz = quiz;
     }
 
-    public static QuizFragment newInstance(int position) {
-        return new QuizFragment();
+    public static QuizFragment newInstance(int position, Quiz quiz) {
+        return new QuizFragment(position, quiz);
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Initialize the quiz object with a new Quiz instance
-        CountryData countryData = new CountryData(requireContext());
-        countryData.open();
-        quiz = new Quiz(countryData);
-        quiz.generateQuestions();
         questionIndex = 0;
     }
 
@@ -55,6 +57,28 @@ public class QuizFragment extends Fragment {
         RadioButton option_1 = view.findViewById(R.id.answer_option_1);
         RadioButton option_2 = view.findViewById(R.id.answer_option_2);
         RadioButton option_3 = view.findViewById(R.id.answer_option_3);
+        Button submitButton = view.findViewById(R.id.submitButton);
+
+        // Set onClickListener for the submit button
+        submitButton.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                // Check if a radio button is checked
+                                                if (option_1.isChecked() || option_2.isChecked() || option_3.isChecked()) {
+                                                    // Check if the selected option matches the correct continent
+                                                    String selectedOption = option_1.isChecked() ? option_1.getText().toString() :
+                                                            option_2.isChecked() ? option_2.getText().toString() :
+                                                                    option_3.getText().toString();
+
+                                                    Question currentQuestion = quiz.getQuestions().get(questionIndex);
+                                                    boolean answerCorrectly = selectedOption.equals(currentQuestion.getCorrectContinent());
+                                                    quiz.updateScore(answerCorrectly);
+
+                                                    // Print the current score
+                                                    Log.d("Quiz Score", "Current Score: " + quiz.getCurrentScore());
+                                                }
+                                            }
+                                        });
 
 
         // Check if questions are available
