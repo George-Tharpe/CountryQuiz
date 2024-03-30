@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -32,6 +33,14 @@ public class QuizContainerFragment extends Fragment {
                 // Increment swipeCount on each page change
                 swipeCount++;
                 Log.d("Swipe Count", "Swipe count: " + swipeCount);
+                if (swipeCount == 7) {
+                    // Create a new fragment to display quiz results and score
+                    QuizResultsFragment quizResultsFragment = new QuizResultsFragment();
+                    FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragment_container, quizResultsFragment);
+                    transaction.addToBackStack(null); // Add the transaction to the back stack
+                    transaction.commit();
+                }
             }
         });
 
