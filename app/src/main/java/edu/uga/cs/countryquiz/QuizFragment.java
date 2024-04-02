@@ -20,7 +20,7 @@ import java.util.List;
 
 public class QuizFragment extends Fragment {
     private Quiz quiz;
-    private int questionIndex;
+    public int questionIndex;
 
 
 
@@ -36,8 +36,6 @@ public class QuizFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Initialize the quiz object with a new Quiz instance
-        questionIndex = 0;
     }
 
 
@@ -63,6 +61,8 @@ public class QuizFragment extends Fragment {
         submitButton.setOnClickListener(new View.OnClickListener() {
                                             @Override
                                             public void onClick(View v) {
+                                                // Disable the button to prevent multiple clicks
+                                                submitButton.setEnabled(false);
                                                 // Check if a radio button is checked
                                                 if (option_1.isChecked() || option_2.isChecked() || option_3.isChecked()) {
                                                     // Check if the selected option matches the correct continent

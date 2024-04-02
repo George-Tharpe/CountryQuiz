@@ -2,6 +2,8 @@ package edu.uga.cs.countryquiz;
 
 
 import android.content.Context;
+import android.util.Log;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
@@ -9,14 +11,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 public class QuizPagerAdapter extends FragmentStateAdapter {
     public Quiz quiz;
-    public CountryData countryData;
 
-    public QuizPagerAdapter(FragmentManager fragmentManager, Lifecycle lifecycle, Context context) {
+    public QuizPagerAdapter(Quiz quiz, FragmentManager fragmentManager, Lifecycle lifecycle, Context context) {
         super( fragmentManager, lifecycle );
-        CountryData countryData = new CountryData(context);
-        countryData.open();
-        quiz = new Quiz(countryData);
-        quiz.generateQuestions();
+        this.quiz = quiz;
     }
 
     @Override
