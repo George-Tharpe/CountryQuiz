@@ -1,4 +1,6 @@
 package edu.uga.cs.countryquiz;
+import static java.lang.Long.parseLong;
+
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
@@ -77,15 +79,56 @@ public class CountryData {
         return countries;
     }
 
-    public long storeCountry(Country country) {
+    public void saveQuiz(int score) {
         ContentValues values = new ContentValues();
-        values.put(CountryDBHelper.COLUMN_COUNTRY_NAME, country.getName());
-        values.put(CountryDBHelper.COLUMN_CONTINENT, country.getContinent());
+        values.put(CountryDBHelper.COLUMN_QUIZ_DATE, System.currentTimeMillis()); // Assuming you want to save the current date/time
+        values.put(CountryDBHelper.COLUMN_SCORE, score);
 
-        long id = db.insert(CountryDBHelper.TABLE_COUNTRIES, null, values);
-        country.setId(id);
-        Log.d(DEBUG_TAG, "Stored new country with id: " + country.getId());
-
-        return id;
+        long newRowId = db.insert(CountryDBHelper.TABLE_QUIZZES, null, values);
+        if (newRowId != -1) {
+            Log.d(DEBUG_TAG, "Quiz saved successfully with ID: " + newRowId);
+        } else {
+            Log.d(DEBUG_TAG, "Failed to save quiz");
+        }
     }
+
+    public List<SavedQuizData> getSavedQuizzes() {
+        List<SavedQuizData> savedQuizzes = new ArrayList<>();
+        Cursor cursor = null;
+
+        try {
+            cursor = db.query(
+                    CountryDBHelper.TABLE_QUIZZES,
+                    new String[]{CountryDBHelper.COLUMN_QUIZ_ID, CountryDBHelper.COLUMN_SCORE, CountryDBHelper.COLUMN_QUIZ_DATE},
+                    null, null, null, null, null
+            );
+
+            if (cursor != null && cursor.getCount() >= 0) {
+                while (cursor.moveToNext()) {
+                    long quizId = cursor.getLong(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_ID));
+                    int score = cursor.getInt(cursor.getColumnIndex(CountryDBHelper.COLUMN_SCORE));
+                    String date = cursor.getString(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_DATE));
+
+                    // Create a new SavedQuizData object with the retrieved data
+                    SavedQuizData savedQuizData = new SavedQuizData(quizId, score, parseLong(date));
+
+                    // Add the SavedQuizData object to the list
+                    savedQuizzes.add(savedQuizData);
+                }
+            }
+            if (cursor != null) {
+                Log.d(DEBUG_TAG, "Number of saved quizzes retrieved from DB: " + cursor.getCount());
+            }
+        } catch (Exception e) {
+            Log.d(DEBUG_TAG, "Exception caught while retrieving saved quizzes: " + e);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+
+        return savedQuizzes;
+    }
+
+
 }

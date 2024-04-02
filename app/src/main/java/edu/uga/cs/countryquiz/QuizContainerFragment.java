@@ -14,17 +14,19 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.util.List;
+
 public class QuizContainerFragment extends Fragment {
 
     public static Quiz quiz;
-    public CountryData countryData;
+    public static CountryData countryData;
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_container_quiz, container, false);
         ViewPager2 pager = view.findViewById(R.id.viewpager);
 
-        CountryData countryData = new CountryData(getContext());
+        countryData = new CountryData(getContext());
         countryData.open();
         quiz = new Quiz(countryData);
         quiz.generateQuestions();
@@ -48,14 +50,27 @@ public class QuizContainerFragment extends Fragment {
                     transaction.replace(R.id.fragment_container, quizResultsFragment);
                     transaction.addToBackStack(null); // Add the transaction to the back stack
                     transaction.commit();
+
+                    countryData.saveQuiz(quiz.getCurrentScore());
+                    //Log.d("saved:", String.valueOf(countryData.getSavedQuizzes().get(0).getScore()));
                 }
             }
         });
 
         return view;
     }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Close the database when the fragment's view is destroyed
+        countryData.close();
+    }
 
     public static int getScore() {
         return quiz.getCurrentScore();
+    }
+
+    public static List<SavedQuizData> getSavedQuizData() {
+        return countryData.getSavedQuizzes();
     }
 }
