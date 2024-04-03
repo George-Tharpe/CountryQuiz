@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">CountryQuiz</string>
     <string name="start_quiz">Start Quiz</string>
+    <string name="question_text">Question text</string>
+    <string name="answer_option_1">Answer option 1</string>
+    <string name="answer_option_2">Answer option 2</string>
+    <string name="answer_option_3">Answer option 3</string>
+    <string name="submit">Submit</string>
+    <string name="your_score">Your Score:</string>
+    <string name="past_quizzes">Past Quizzes</string>
+    <string name="return_home">Return Home</string>
+    <string name="country_quiz">Country Quiz \n\n Once you have chosen a continent hit submit to confirm your answer and swipe left to continue. \n\n Good Luck!</string>
 </resources>
