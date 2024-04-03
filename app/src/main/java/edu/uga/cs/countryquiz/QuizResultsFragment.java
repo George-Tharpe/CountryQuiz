@@ -32,10 +32,11 @@ public class QuizResultsFragment extends Fragment {
         //Show past Quizzes
         savedQuizzes = QuizContainerFragment.getSavedQuizData();
 
-        // Display the past quiz data and scores
+        // Display the past quiz data and scores in reverse order
         TextView quizDataTextView = view.findViewById(R.id.quiz_data_text_view);
         StringBuilder stringBuilder = new StringBuilder();
-        for (SavedQuizData quizData : savedQuizzes) {
+        for (int i = savedQuizzes.size() - 1; i >= 0; i--) {
+            SavedQuizData quizData = savedQuizzes.get(i);
             stringBuilder.append("Quiz Date: ").append(quizData.getDate()).append("\n");
             stringBuilder.append("Score: ").append(quizData.getScore()).append("/6\n\n");
         }
