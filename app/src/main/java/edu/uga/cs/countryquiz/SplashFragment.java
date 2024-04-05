@@ -7,10 +7,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-public class SplashFragment extends Fragment {
+import java.util.List;
 
+public class SplashFragment extends Fragment {
+    public static CountryData countryData;
     public SplashFragment() {
         // Required empty public constructor
+    }
+
+    public static List<SavedQuizData> getSavedQuizData() {
+        return countryData.getSavedQuizzes();
     }
 
     @Override
@@ -22,13 +28,29 @@ public class SplashFragment extends Fragment {
         // Find the start button
         Button startButton = view.findViewById(R.id.start_button);
 
+        countryData = new CountryData(getContext());
+        countryData.open();
+
         // Set OnClickListener to start the quiz when the button is clicked
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Replace the SplashFragment with the QuizFragment
                 requireActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_container, new QuizContainerFragment())
+                        .replace(R.id.fragment_container, new QuizContainerFragment(countryData))
+                        .commit();
+            }
+        });
+
+        Button pastButton = view.findViewById(R.id.past_quizzes_button);
+
+        // Set OnClickListener to start the quiz when the button is clicked
+        pastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Replace the SplashFragment with the QuizFragment
+                requireActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new PastQuizFragment(countryData))
                         .commit();
             }
         });

@@ -20,14 +20,17 @@ public class QuizContainerFragment extends Fragment {
 
     public static Quiz quiz;
     public static CountryData countryData;
+
+    public QuizContainerFragment(CountryData countryData) {
+        QuizContainerFragment.countryData = countryData;
+    }
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_container_quiz, container, false);
         ViewPager2 pager = view.findViewById(R.id.viewpager);
 
-        countryData = new CountryData(getContext());
-        countryData.open();
+
         quiz = new Quiz(countryData);
         quiz.generateQuestions();
 
@@ -59,12 +62,12 @@ public class QuizContainerFragment extends Fragment {
 
         return view;
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Close the database when the fragment's view is destroyed
-        countryData.close();
-    }
+//    @Override
+//    public void onDestroyView() {
+//        super.onDestroyView();
+//        // Close the database when the fragment's view is destroyed
+//        countryData.close();
+//    }
 
     public static int getScore() {
         return quiz.getCurrentScore();

@@ -10,4 +10,5 @@
     <string name="past_quizzes">Past Quizzes</string>
     <string name="return_home">Return Home</string>
     <string name="country_quiz">Country Quiz \n\n Once you have chosen a continent hit submit to confirm your answer and swipe left to continue. \n\n Good Luck!</string>
+    <string name="past_quizzes_button">Past Quizzes</string>
 </resources>
