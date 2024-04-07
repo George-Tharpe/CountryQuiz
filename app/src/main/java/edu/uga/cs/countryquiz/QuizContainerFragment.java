@@ -29,7 +29,9 @@ public class QuizContainerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_container_quiz, container, false);
         ViewPager2 pager = view.findViewById(R.id.viewpager);
-
+        if(!(countryData.isDBOpen())){
+            countryData.open();
+        }
 
         quiz = new Quiz(countryData);
         quiz.generateQuestions();
@@ -62,12 +64,12 @@ public class QuizContainerFragment extends Fragment {
 
         return view;
     }
-//    @Override
-//    public void onDestroyView() {
-//        super.onDestroyView();
-//        // Close the database when the fragment's view is destroyed
-//        countryData.close();
-//    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Close the database when the fragment's view is destroyed
+        countryData.close();
+    }
 
     public static int getScore() {
         return quiz.getCurrentScore();

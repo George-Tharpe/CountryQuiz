@@ -28,8 +28,10 @@ public class SplashFragment extends Fragment {
         // Find the start button
         Button startButton = view.findViewById(R.id.start_button);
 
+
         countryData = new CountryData(getContext());
         countryData.open();
+
 
         // Set OnClickListener to start the quiz when the button is clicked
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -54,6 +56,7 @@ public class SplashFragment extends Fragment {
                         .commit();
             }
         });
+
 
         return view;
     }

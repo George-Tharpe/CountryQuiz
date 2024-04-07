@@ -54,7 +54,6 @@ public class PastQuizFragment extends Fragment {
                     .replace(R.id.fragment_container, new SplashFragment())
                     .commit();
         });
-
         return view;
     }
 

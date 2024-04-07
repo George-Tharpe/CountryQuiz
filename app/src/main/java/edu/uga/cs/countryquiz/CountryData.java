@@ -105,9 +105,9 @@ public class CountryData {
 
             if (cursor != null && cursor.getCount() >= 0) {
                 while (cursor.moveToNext()) {
-                    long quizId = cursor.getLong(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_ID));
-                    int score = cursor.getInt(cursor.getColumnIndex(CountryDBHelper.COLUMN_SCORE));
-                    String date = cursor.getString(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_DATE));
+                    @SuppressLint("Range") long quizId = cursor.getLong(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_ID));
+                    @SuppressLint("Range") int score = cursor.getInt(cursor.getColumnIndex(CountryDBHelper.COLUMN_SCORE));
+                    @SuppressLint("Range") String date = cursor.getString(cursor.getColumnIndex(CountryDBHelper.COLUMN_QUIZ_DATE));
 
                     // Create a new SavedQuizData object with the retrieved data
                     SavedQuizData savedQuizData = new SavedQuizData(quizId, score, parseLong(date));
